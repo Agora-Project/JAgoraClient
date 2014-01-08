@@ -16,5 +16,6 @@ public class Argument {
     this.position = position;
   }
   
-  
+  public Vector2 getPosition() { return position; }
+  public JAgoraNode getNode() { return node; }
 }
