@@ -35,7 +35,7 @@ public class GraphRenderer extends Renderer<JAgoraGraph>{
       if (nodeRenderers.containsKey(node))  // If there was a renderer before, keep it. 
         newRenderers.put(node, nodeRenderers.get(node));
       else // TODO: change default argument position.
-        newRenderers.put(node, new ArgumentRenderer(new Argument(node, new Vector2(0,0))));
+        newRenderers.put(node, new ArgumentRenderer(new Argument(node, new Vector2(30,30))));
     }
     
     nodeRenderers = newRenderers;
