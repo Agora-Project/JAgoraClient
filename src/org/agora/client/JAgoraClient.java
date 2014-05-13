@@ -1,67 +1,173 @@
 package org.agora.client;
 
-import org.agora.client.graphics.GraphRenderer;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import org.agora.lib.*;
 import org.agora.graph.JAgoraGraph;
 import org.agora.graph.JAgoraNode;
-import org.agora.graph.JAgoraNodeID;
+import org.agora.graph.JAgoraThread;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-public class JAgoraClient implements ApplicationListener {
-  
-  protected JAgoraGraph graph;
-  protected GraphRenderer graphRenderer;
-  
-  protected OrthographicCamera camera;
-  
-  protected ShapeRenderer shapeRenderer;
-  
-  public void create () {
-    camera = new OrthographicCamera();
-    camera.setToOrtho(true, 100, 100);
-    shapeRenderer = new ShapeRenderer();
+/**
+ *
+ * @author greg
+ */
+public class JAgoraClient extends JFrame {
     
-    graph = new JAgoraGraph();
-    JAgoraNode testNode = new JAgoraNode(new JAgoraNodeID("bigornas.bounceme.net", 1));
-    graph.addNode(testNode);
+    protected JAgoraLib lib;
+    protected JPanel panel;
+    protected JFrame frame;
     
-    graphRenderer = new GraphRenderer(graph);
-  }
-
-  public void render () {
-    GL10 gl = Gdx.graphics.getGL10();
-    gl.glEnable(GL10.GL_BLEND);
-    gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-    //gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-    gl.glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
-    gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-    gl.glViewport(0, 0, 600, 600);
+    public JAgoraClient(String title, Color bgColor) {
+        super(title);
+        lib = new JAgoraLib("127.0.0.1", org.agora.lib.Options.AGORA_PORT);
+//        JAgoraNode testNode = new JAgoraNode(new JAgoraNodeID("bigornas.bounceme.net", 1));
+//        graph.addNode(testNode);
+        frame = this;
+        panel = null;
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1600, 800);
+        MenuListener listener = new MenuListener();
+        MenuBar mbar = new MenuBar();
+        Menu m = new Menu("Connect");
+        MenuItem mi = new MenuItem("Set Host");
+        mi.addActionListener(listener);
+	m.add(mi);
+        mi = new MenuItem("Register");
+        mi.addActionListener(listener);
+	m.add(mi);
+        mi = new MenuItem("Login");
+        mi.addActionListener(listener);
+	m.add(mi);
+        mi = new MenuItem("Logout");
+        mi.addActionListener(listener);
+	m.add(mi);
+	m.addSeparator();
+        mi = new MenuItem("Quit");
+        mi.addActionListener(listener);
+	m.add(mi);
+	mbar.add(m);
+		
+	m = new Menu("Agora");
+        mi = new MenuItem("Get Thread List");
+        mi.addActionListener(listener);
+        m.add(mi);
+        mi = new MenuItem("Get Thread");
+        mi.addActionListener(listener);
+	m.add(mi);
+        mi = new MenuItem("Add Argument");
+        mi.addActionListener(listener);
+	m.add(mi);
+	mbar.add(m);
+        this.setMenuBar(mbar);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        
+    }
     
-    camera.update();
-    camera.apply(gl);
-    shapeRenderer.setProjectionMatrix(camera.combined);
+    public void changePanel(JPanel panel) {
+        if (this.panel != null)
+            remove(this.panel);
+        this.panel = panel;
+        add(panel);
+        pack();
+        setSize(1600, 800);
+        setVisible(true);
+    }
     
-    graphRenderer.render(shapeRenderer);
-  }
+//    public void updateArguments() {
+//        arguments.clear();
+//        int ypos = 0;
+//        for (JAgoraNode node : graph.getNodes())
+//        {
+//            arguments.add(new Argument(node, new Point(0,ypos)));
+//            ypos += 100;
+//        }
+//    }
+//    
+    public static void main(String[] args) {
+        new JAgoraClient("Agora", Color.black);
+    }
+    
+    public class MenuListener implements ActionListener{
 
-  public void resize (int width, int height) {
-  }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String string;
+            String tokens[];
+            switch (((MenuItem) e.getSource()).getLabel())
+            {
+                case "Set Host": 
+                    lib = new JAgoraLib(
+                        (String) JOptionPane.showInputDialog(frame,
+                            "Enter Host Address",
+                            "Set Host",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            "127.0.0.1"), org.agora.lib.Options.AGORA_PORT);
+                    break;
+                case "Register": 
+                    string = (String) JOptionPane.showInputDialog(frame, 
+                        "Enter username, password, and Email",
+                        "Register",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        null);
+                    if (string != null) {
+                        tokens = string.split(" ");
+                        if (tokens.length == 3) 
+                            lib.register(tokens[0], tokens[1], tokens[2]);
+                    }
+                    break;
+                case "Login":
+                    string = (String) JOptionPane.showInputDialog(frame, 
+                        "Enter username and password.",
+                        "Login",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        null);
+                    if (string != null) {
+                        tokens = string.split(" ");
+                        if (tokens.length == 2) 
+                            lib.login(tokens[0], tokens[1]);
+                    }
+                    break;
+                case "Logout":
+                    lib.logout();
+                    break;
+                case "Quit":
+                    lib.logout();
+                    System.exit(0);
+                    break;
+                case "Get Thread":
+                    string = (String) JOptionPane.showInputDialog(frame, 
+                        "Enter thread ID",
+                        "Get Thread",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        null);
+                    break;
+                case "Get Thread List":
+                    ArrayList<JAgoraThread> threads = lib.getThreadList();
+                    changePanel(new ThreadListPanel(threads));
+                    break;
+            }
+        }
+        
+    }
 
-  public void pause () {
-  }
-
-  public void resume () {
-  }
-
-  public void dispose () {
-  }
-  
-  public static void main(String[] args) {
-    new LwjglApplication(new JAgoraClient(), "JAgoraClient", 600, 600, false);
-  }
 }
