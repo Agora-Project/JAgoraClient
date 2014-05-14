@@ -24,7 +24,7 @@ import org.agora.graph.JAgoraThread;
  */
 public class JAgoraClient extends JFrame {
     
-    protected JAgoraLib lib;
+    public JAgoraLib lib;
     protected JPanel panel;
     protected JFrame frame;
     
@@ -85,16 +85,6 @@ public class JAgoraClient extends JFrame {
         setVisible(true);
     }
     
-//    public void updateArguments() {
-//        arguments.clear();
-//        int ypos = 0;
-//        for (JAgoraNode node : graph.getNodes())
-//        {
-//            arguments.add(new Argument(node, new Point(0,ypos)));
-//            ypos += 100;
-//        }
-//    }
-//    
     public static void main(String[] args) {
         new JAgoraClient("Agora", Color.black);
     }
@@ -163,7 +153,7 @@ public class JAgoraClient extends JFrame {
                     break;
                 case "Get Thread List":
                     ArrayList<JAgoraThread> threads = lib.getThreadList();
-                    changePanel(new ThreadListPanel(threads));
+                    changePanel(new ThreadListPanel((JAgoraClient) frame, threads));
                     break;
             }
         }

@@ -12,15 +12,18 @@ import org.agora.graph.JAgoraThread;
  */
 public class ThreadListPanel extends JPanel{
     public ArrayList<JAgoraThread> threads;
+    public JAgoraClient client;
     
-    public ThreadListPanel() {
+    public ThreadListPanel(JAgoraClient client) {
         super();
+        this.client = client;
         threads = new ArrayList<>();
         addMouseListener(new PanelListener());
     }
     
-    public ThreadListPanel(ArrayList<JAgoraThread> threads) {
+    public ThreadListPanel(JAgoraClient client, ArrayList<JAgoraThread> threads) {
         super();
+        this.client = client;
         this.threads = threads;
         addMouseListener(new PanelListener());
     }
@@ -39,7 +42,9 @@ public class ThreadListPanel extends JPanel{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            
+            if (e.getX() < 400 && e.getY() < threads.size() * 40) {
+                client.changePanel(new GraphPanel(client, client.lib.getThreadByID(e.getY()/40)));
+            }
         }
 
         @Override
