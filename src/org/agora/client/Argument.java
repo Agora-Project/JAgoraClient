@@ -3,6 +3,8 @@ package org.agora.client;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.Iterator;
+import org.agora.graph.JAgoraEdge;
 import org.agora.graph.JAgoraNode;
 
 /**
@@ -10,7 +12,7 @@ import org.agora.graph.JAgoraNode;
  */
 public class Argument {
   protected JAgoraNode node;
-  protected Point position;
+  private Point position;
   protected int width;
   protected int height;
   
@@ -22,12 +24,14 @@ public class Argument {
   }
   
   public Point getPosition() { return position; }
+  public void setPosition(Point position) { this.position = position; }
   public JAgoraNode getNode() { return node; }
   
   public void draw(Graphics g) {
       g.setColor(Color.black);
-      g.drawRect( (int) position.getX(), (int) position.getY(), width, height);
-      g.drawString(node.toString(), (int) position.getX() +20, (int) position.getY()+30);
-      
+      g.drawRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, height);
+      g.drawString((String) node.getContent().get("txt"), (int) position.getX() +2, (int) position.getY()+15);
+      Iterator<JAgoraEdge> edges = node.getIncomingEdges();
   }
+  
 }
