@@ -27,10 +27,24 @@ public class Argument {
   public void setPosition(Point position) { this.position = position; }
   public JAgoraNode getNode() { return node; }
   
+  public boolean containsPoint(Point p) {
+      if (p.x > position.getX() -(width/2) && p.x < position.getX() +(width/2) 
+       && p.y > position.getY() -(height/2) && p.y < position.getY() +(height/2))
+          return true;
+      else return false;
+  }
+  
   public void draw(Graphics g) {
+      g.setColor(Color.white);
+      g.fillRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, height);
       g.setColor(Color.black);
+      g.drawRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, 18);
+      if (node.getContent().containsField("Title")) 
+          g.drawString((String) node.getContent().get("Title"), 
+              (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +15);
       g.drawRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, height);
-      g.drawString((String) node.getContent().get("txt"), (int) position.getX() +2, (int) position.getY()+15);
+      g.drawString((String) node.getContent().get("txt"), 
+              (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +35);
       Iterator<JAgoraEdge> edges = node.getIncomingEdges();
   }
   

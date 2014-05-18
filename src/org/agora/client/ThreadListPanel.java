@@ -1,5 +1,6 @@
 package org.agora.client;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class ThreadListPanel extends JPanel{
     public void paintComponent(Graphics g) {
         int ypos = 0;
         for (JAgoraThread thread : threads) {
+            g.setColor(Color.white);
+            g.fillRect(0, ypos, 400, 40);
+            g.setColor(Color.black);
             g.drawRect(0, ypos, 400, 40);
             g.drawString(thread.getTitle(), 2, ypos +15);
             g.drawString(thread.getDescription(), 2, ypos +35);
