@@ -14,7 +14,7 @@ import org.agora.graph.JAgoraNode;
  */
 public class GraphPanel extends JPanel {
     
-    public ArrayList<Argument> arguments;
+    public ArrayList<Post> posts;
     public ArrayList<Connection> connections;
     public JAgoraGraph graph;
     public JAgoraClient client;
@@ -23,7 +23,7 @@ public class GraphPanel extends JPanel {
         super();
         this.client = client;
         graph = new JAgoraGraph();
-        arguments = new ArrayList<>();
+        posts = new ArrayList<>();
         connections = new ArrayList<>();
     }
     
@@ -31,37 +31,38 @@ public class GraphPanel extends JPanel {
         super();
         this.client = client;
         this.graph = graph;
-        arguments = new ArrayList<>();
+        posts = new ArrayList<>();
         connections = new ArrayList<>();
         updateArguments();
     }
     
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         for (Connection c : connections) {
             c.draw(g);
         }
-        for (Argument a : arguments) {
+        for (Post a : posts) {
             a.draw(g);
         }
     }
     
     public void updateArguments() {
-        arguments.clear();
+        posts.clear();
         connections.clear();
         int ypos = 200;
         for (JAgoraNode node : graph.getNodes())
         {
-            arguments.add(new Argument(node, new Point(200,ypos)));
+            posts.add(new Post(node, new Point(200,ypos)));
             ypos += 200;
         }
         for (JAgoraEdge edge : graph.edgeMap.values()) {
-            Argument origin = null;
-            for (Argument a : arguments) {
+            Post origin = null;
+            for (Post a : posts) {
                 if (a.getNode() == edge.getOrigin())
                     origin = a;
             }
-            Argument target = null;
-            for (Argument a : arguments) {
+            Post target = null;
+            for (Post a : posts) {
                 if (a.getNode() == edge.getTarget())
                     target = a;
             }
@@ -70,7 +71,7 @@ public class GraphPanel extends JPanel {
         
     }
     
-    public void centerViewpoint(Argument a) {
+    public void centerViewpoint(Post a) {
         a.setPosition(new Point(getWidth()/2, getHeight()/2));
     }
     

@@ -10,13 +10,13 @@ import org.agora.graph.JAgoraNode;
 /**
  * An argument is the view of a JAgoraNode.
  */
-public class Argument {
+public class Post {
   protected JAgoraNode node;
   private Point position;
   protected int width;
   protected int height;
   
-  public Argument(JAgoraNode node, Point position) {
+  public Post(JAgoraNode node, Point position) {
     this.node = node;
     this.position = position;
     width = 200;

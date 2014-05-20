@@ -9,10 +9,10 @@ import org.agora.graph.JAgoraEdge;
  * @author greg
  */
 public class Connection {
-    protected Argument origin, target;
+    protected Post origin, target;
     protected Color color;
     
-    public Connection(Argument a, Argument b, JAgoraEdge edge) {
+    public Connection(Post a, Post b, JAgoraEdge edge) {
         origin = a;
         target  = b;
         color = Color.BLACK;

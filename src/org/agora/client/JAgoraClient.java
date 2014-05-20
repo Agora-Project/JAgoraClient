@@ -2,6 +2,8 @@ package org.agora.client;
 
 
 import java.awt.Color;
+import static java.awt.Component.CENTER_ALIGNMENT;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Menu;
 import java.awt.MenuBar;
@@ -10,6 +12,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -80,9 +83,14 @@ public class JAgoraClient extends JFrame {
             remove(this.panel);
         this.panel = panel;
         add(panel);
-        pack();
-        setSize(1600, 800);
+        //pack();
+        //setSize(1600, 800);
         setVisible(true);
+    }
+    
+    public void emptyPanel() {
+        remove(this.panel);
+        panel = null;
     }
     
     public static void main(String[] args) {
@@ -154,6 +162,21 @@ public class JAgoraClient extends JFrame {
                 case "Get Thread List":
                     ArrayList<JAgoraThread> threads = lib.getThreadList();
                     changePanel(new ThreadListPanel((JAgoraClient) frame, threads));
+                    break;
+                case "Add Argument":
+                    if (panel == null)
+                        changePanel(new NewPostPanel((JAgoraClient) frame));
+                    else {
+                        JPanel newPanel = new JPanel();
+                        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+                        panel.setMinimumSize(new Dimension(1600, 400));
+                        panel.setPreferredSize(new Dimension(1600, 400));
+                        panel.setMaximumSize(new Dimension(1600, 400));
+                        panel.setAlignmentX(CENTER_ALIGNMENT);
+                        newPanel.add(panel);
+                        newPanel.add(new NewPostPanel((JAgoraClient) frame));
+                        changePanel(newPanel);
+                    }
                     break;
             }
         }
