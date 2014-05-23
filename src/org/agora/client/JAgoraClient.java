@@ -162,6 +162,7 @@ public class JAgoraClient extends JFrame {
                 case "Get Thread List":
                     ArrayList<JAgoraThread> threads = lib.getThreadList();
                     changePanel(new ThreadListPanel((JAgoraClient) frame, threads));
+                    repaint();
                     break;
                 case "Add Argument":
                     if (panel == null)
