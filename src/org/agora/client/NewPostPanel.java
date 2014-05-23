@@ -13,6 +13,7 @@ import org.agora.graph.JAgoraNode;
  * @author greg
  */
 public class NewPostPanel extends JPanel{
+    private static final long serialVersionUID = 1L;
     protected JTextField titleField;
     protected JTextPane textField;
     protected JAgoraClient client;
@@ -44,6 +45,7 @@ public class NewPostPanel extends JPanel{
     }
     
     public class PostReference extends JPanel {
+        private static final long serialVersionUID = 1L;
         protected JAgoraNode node;
         
         public PostReference(JAgoraNode node) {
