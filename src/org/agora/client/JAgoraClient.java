@@ -83,8 +83,8 @@ public class JAgoraClient extends JFrame {
             remove(this.panel);
         this.panel = panel;
         add(panel);
-        //pack();
-        //setSize(1600, 800);
+        pack();
+        setSize(1600, 800);
         setVisible(true);
     }
     
@@ -174,9 +174,12 @@ public class JAgoraClient extends JFrame {
                         panel.setPreferredSize(new Dimension(1600, 400));
                         panel.setMaximumSize(new Dimension(1600, 400));
                         panel.setAlignmentX(CENTER_ALIGNMENT);
+                        GraphPanel gp = (GraphPanel) panel;
                         newPanel.add(panel);
-                        newPanel.add(new NewPostPanel((JAgoraClient) frame));
+                        NewPostPanel np = new NewPostPanel((JAgoraClient) frame);
+                        newPanel.add(np);
                         changePanel(newPanel);
+                        gp.newPostPanel = np;
                     }
                     break;
             }

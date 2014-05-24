@@ -1,12 +1,20 @@
 package org.agora.client;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import org.agora.graph.JAgoraNode;
+import org.bson.BasicBSONObject;
 
 /**
  *
@@ -18,6 +26,7 @@ public class NewPostPanel extends JPanel{
     protected JAgoraClient client;
     protected ArrayList<PostReference> posts;
     protected JPanel postPanel;
+    protected JButton button;
     
     public NewPostPanel(JAgoraClient client) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -41,13 +50,92 @@ public class NewPostPanel extends JPanel{
         //textField.setBounds(0, 21, client.getWidth(), client.getHeight() -21);
         textField.setAlignmentX(CENTER_ALIGNMENT);
         add(textField);
+        button = new JButton("Post");
+        button.setAlignmentX(CENTER_ALIGNMENT);
+        add(button);
+    }
+    
+    public void addPost(JAgoraNode node) {
+        for (PostReference p :posts) {
+            if (p.getNode() == node)
+                return;
+        }
+        PostReference pr = new PostReference(node);
+        posts.add(pr);
+        postPanel.add(pr);
+        repaint();
+    }
+    
+    public class ButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            BasicBSONObject content = new BasicBSONObject();
+            content.put("Title", titleField.getText());
+            content.put("Text", textField.getText());
+            client.lib.addArgument(content, posts.get(0).node.getThreadID());
+            
+        }
+        
     }
     
     public class PostReference extends JPanel {
-        protected JAgoraNode node;
+        private JAgoraNode node;
+        private PostReference pr;
         
         public PostReference(JAgoraNode node) {
             this.node = node;
+            pr = this;
+            this.setMinimumSize(new Dimension(75, 20));
+            this.setPreferredSize(new Dimension(75, 20));
+            this.setMaximumSize(new Dimension(75, 20));
+            this.setAlignmentY(CENTER_ALIGNMENT);
+            addMouseListener(new PanelListener());
         }
+        
+        public void paintComponent(Graphics g) {
+            g.setColor(Color.red);
+            g.drawRect(0, 0, 74, 19);
+        }
+
+        /**
+         * @return the node
+         */
+        public JAgoraNode getNode() {
+            return node;
+        }
+        
+        public class PanelListener implements MouseListener {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                posts.remove(pr);
+                postPanel.remove(pr);
+                pr.repaint();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                
+            }
+            
+        }
+        
+        
     }
 }

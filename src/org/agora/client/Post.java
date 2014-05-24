@@ -43,8 +43,13 @@ public class Post {
           g.drawString((String) node.getContent().get("Title"), 
               (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +15);
       g.drawRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, height);
-      g.drawString((String) node.getContent().get("txt"), 
+      if (node.getContent().containsField("txt"))
+          g.drawString((String) node.getContent().get("txt"), 
               (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +35);
+      else if (node.getContent().containsField("Text"))
+          g.drawString((String) node.getContent().get("Text"), 
+              (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +35);
+          
       Iterator<JAgoraEdge> edges = node.getIncomingEdges();
   }
   

@@ -1,6 +1,7 @@
 package org.agora.client;
 
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,6 +22,8 @@ public class GraphPanel extends JPanel {
     public ArrayList<Connection> connections;
     public JAgoraGraph graph;
     public JAgoraClient client;
+    public NewPostPanel newPostPanel;
+    public Post centerPost;
     
     public GraphPanel(JAgoraClient client) {
         this(client, new JAgoraGraph());
@@ -34,6 +37,7 @@ public class GraphPanel extends JPanel {
         connections = new ArrayList<>();
         updateArguments();
         addMouseListener(new PanelListener());
+        newPostPanel = null;
     }
     
     public void paintComponent(Graphics g) {
@@ -49,17 +53,16 @@ public class GraphPanel extends JPanel {
     public void updateArguments() {
         posts.clear();
         connections.clear();
-        int ypos = 200;
         for (JAgoraNode node : graph.getNodes())
         {
-            posts.add(new Post(node, new Point(200,ypos)));
-            ypos += 200;
+            posts.add(new Post(node, new Point(0, 0)));
         }
         for (JAgoraEdge edge : graph.edgeMap.values()) {
             Post origin = getPost(edge.getOrigin());
             Post target = getPost(edge.getTarget());
             connections.add(new Connection(origin, target, edge));
         }
+        if (posts.size() > 0) centerViewpoint(posts.get(0));
         
     }
     
@@ -72,6 +75,7 @@ public class GraphPanel extends JPanel {
     }
     
     public void centerViewpoint(Post a) {
+        centerPost = a;
         a.setPosition(new Point(getWidth()/2, getHeight()/2));
         ArrayList<JAgoraEdge> list = a.node.getOutgoingEdgeList();
         int xoff = 50*(list.size()-1);
@@ -92,9 +96,16 @@ public class GraphPanel extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            for (Post p : posts) {
-                if (p.containsPoint(e.getPoint())) 
-                    centerViewpoint(p);
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                for (Post p : posts) {
+                    if (p.containsPoint(e.getPoint())) 
+                        centerViewpoint(p);
+                }
+            } else if (newPostPanel != null) {
+                for (Post p : posts) {
+                    if (p.containsPoint(e.getPoint())) 
+                        newPostPanel.addPost(p.getNode());
+                }
             }
         }
 
