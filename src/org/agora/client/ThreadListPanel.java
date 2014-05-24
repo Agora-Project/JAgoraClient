@@ -12,6 +12,7 @@ import org.agora.graph.JAgoraThread;
  * @author greg
  */
 public class ThreadListPanel extends JPanel{
+    private static final long serialVersionUID = 1L;
     public ArrayList<JAgoraThread> threads;
     public JAgoraClient client;
     

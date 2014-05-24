@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JPanel;
 import org.agora.graph.JAgoraEdge;
 import org.agora.graph.JAgoraGraph;
@@ -17,6 +16,7 @@ import org.agora.graph.JAgoraNode;
  * @author greg
  */
 public class GraphPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
     
     public ArrayList<Post> posts;
     public ArrayList<Connection> connections;

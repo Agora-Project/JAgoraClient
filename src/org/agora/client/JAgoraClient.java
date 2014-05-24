@@ -2,13 +2,10 @@ package org.agora.client;
 
 
 import java.awt.Color;
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -17,8 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.agora.lib.*;
-import org.agora.graph.JAgoraGraph;
-import org.agora.graph.JAgoraNode;
 import org.agora.graph.JAgoraThread;
 
 /**
@@ -26,6 +21,7 @@ import org.agora.graph.JAgoraThread;
  * @author greg
  */
 public class JAgoraClient extends JFrame {
+    private static final long serialVersionUID = 1L;
     
     public JAgoraLib lib;
     protected JPanel panel;
