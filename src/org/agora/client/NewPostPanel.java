@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import org.agora.graph.JAgoraNode;
+import org.agora.graph.JAgoraNodeID;
 import org.bson.BasicBSONObject;
 
 /**
@@ -53,6 +54,7 @@ public class NewPostPanel extends JPanel{
         add(textField);
         button = new JButton("Post");
         button.setAlignmentX(CENTER_ALIGNMENT);
+        button.addActionListener(new ButtonListener());
         add(button);
     }
     
@@ -74,8 +76,11 @@ public class NewPostPanel extends JPanel{
             BasicBSONObject content = new BasicBSONObject();
             content.put("Title", titleField.getText());
             content.put("Text", textField.getText());
-            client.lib.addArgument(content, posts.get(0).node.getThreadID());
-            
+            ArrayList<JAgoraNodeID> targets = new ArrayList<>();
+            for (PostReference p :posts) {
+                targets.add(p.node.getID());
+            }
+            client.lib.addArgumentWithAttacks(content, posts.get(0).node.getThreadID(), targets);
         }
         
     }

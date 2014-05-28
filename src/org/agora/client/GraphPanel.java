@@ -75,6 +75,7 @@ public class GraphPanel extends JPanel {
     }
     
     public void centerViewpoint(Post a) {
+        for (Post p : posts) p.setPosition(new Point(0,0));
         centerPost = a;
         a.setPosition(new Point(getWidth()/2, getHeight()/2));
         ArrayList<JAgoraEdge> list = a.node.getOutgoingEdgeList();
