@@ -81,6 +81,9 @@ public class NewPostPanel extends JPanel{
                 targets.add(p.node.getID());
             }
             client.lib.addArgumentWithAttacks(content, posts.get(0).node.getThreadID(), targets);
+            textField.setText("");
+            titleField.setText("");
+            posts.clear();
         }
         
     }

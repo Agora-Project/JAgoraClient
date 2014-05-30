@@ -75,7 +75,7 @@ public class GraphPanel extends JPanel {
     }
     
     public void centerViewpoint(Post a) {
-        for (Post p : posts) p.setPosition(new Point(0,0));
+        for (Post p : posts) p.setPosition(new Point(50,50));
         centerPost = a;
         a.setPosition(new Point(getWidth()/2, getHeight()/2));
         ArrayList<JAgoraEdge> list = a.node.getOutgoingEdgeList();
@@ -99,8 +99,10 @@ public class GraphPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 for (Post p : posts) {
-                    if (p.containsPoint(e.getPoint())) 
+                    if (p.containsPoint(e.getPoint())) { 
                         centerViewpoint(p);
+                        return;
+                    }
                 }
             } else if (newPostPanel != null) {
                 for (Post p : posts) {
