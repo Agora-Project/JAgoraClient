@@ -15,12 +15,14 @@ public class Post {
   private Point position;
   protected int width;
   protected int height;
+  private boolean visible;
   
   public Post(JAgoraNode node, Point position) {
     this.node = node;
     this.position = position;
     width = 200;
     height = 100;
+    visible = true;
   }
   
   public Point getPosition() { return position; }
@@ -35,6 +37,7 @@ public class Post {
   }
   
   public void draw(Graphics g) {
+      if (!isVisible()) return;
       g.setColor(Color.white);
       g.fillRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, height);
       g.setColor(Color.black);
@@ -52,5 +55,19 @@ public class Post {
           
       Iterator<JAgoraEdge> edges = node.getIncomingEdges();
   }
+
+    /**
+     * @return the visible
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+    /**
+     * @param visible the visible to set
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
   
 }

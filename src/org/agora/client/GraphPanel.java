@@ -75,20 +75,33 @@ public class GraphPanel extends JPanel {
     }
     
     public void centerViewpoint(Post a) {
-        for (Post p : posts) p.setPosition(new Point(50,50));
+        for (Post p : posts) {
+            p.setPosition(new Point(50,50));
+            p.setVisible(false);
+        }
+        for (Connection c : connections) {
+            if (c.origin == a || c.target == a)
+                c.setVisible(true);
+            else c.setVisible(false);
+        }
         centerPost = a;
         a.setPosition(new Point(getWidth()/2, getHeight()/2));
+        a.setVisible(true);
         ArrayList<JAgoraEdge> list = a.node.getOutgoingEdgeList();
-        int xoff = 50*(list.size()-1);
+        int xoff = -110*(list.size()-1);
         for (JAgoraEdge edge : list) {
-            getPost(edge.getTarget()).setPosition(new Point(getWidth()/2 + xoff, getHeight()/2 -110));
-            xoff += 100;
+            Post p = getPost(edge.getTarget());
+            p.setPosition(new Point(getWidth()/2 + xoff, getHeight()/2 -110));
+            p.setVisible(true);
+            xoff += 220;
         }
         list = a.node.getIncomingEdgeList();
-        xoff = 50*(list.size()-1);
+        xoff = -110*(list.size()-1);
         for (JAgoraEdge edge : list) {
-            getPost(edge.getOrigin()).setPosition(new Point(getWidth()/2 + xoff, getHeight()/2 +110));
-            xoff += 100;
+            Post p = getPost(edge.getOrigin());
+            p.setPosition(new Point(getWidth()/2 + xoff, getHeight()/2 +110));
+            p.setVisible(true);
+            xoff += 220;
         }
         repaint();
     }
