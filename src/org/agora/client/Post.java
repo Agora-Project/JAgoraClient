@@ -36,6 +36,14 @@ public class Post {
       else return false;
   }
   
+  public void adjustSize() {
+      int characters;
+      if (node.getContent().containsField("txt"))
+          characters = ((String) node.getContent().get("txt")).length();
+      else if (node.getContent().containsField("Text"))
+          characters = ((String) node.getContent().get("Text")).length();
+  }
+  
   public void draw(Graphics g) {
       if (!isVisible()) return;
       g.setColor(Color.white);

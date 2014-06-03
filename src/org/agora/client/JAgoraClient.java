@@ -71,7 +71,7 @@ public class JAgoraClient extends JFrame {
         this.setMenuBar(mbar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        
+        changePanel(new LoginPanel((JAgoraClient)frame));
     }
     
     public void changePanel(JPanel panel) {
@@ -87,6 +87,12 @@ public class JAgoraClient extends JFrame {
     public void emptyPanel() {
         remove(this.panel);
         panel = null;
+    }
+    
+    public void getThreadList() {
+        ArrayList<JAgoraThread> threads = lib.getThreadList();
+        changePanel(new ThreadListPanel((JAgoraClient) frame, threads));
+        repaint();
     }
     
     public static void main(String[] args) {
@@ -126,18 +132,7 @@ public class JAgoraClient extends JFrame {
                     }
                     break;
                 case "Login":
-                    string = (String) JOptionPane.showInputDialog(frame, 
-                        "Enter username and password.",
-                        "Login",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        null);
-                    if (string != null) {
-                        tokens = string.split(" ");
-                        if (tokens.length == 2) 
-                            lib.login(tokens[0], tokens[1]);
-                    }
+                    changePanel(new LoginPanel((JAgoraClient)frame));
                     break;
                 case "Logout":
                     lib.logout();
@@ -156,13 +151,11 @@ public class JAgoraClient extends JFrame {
                         null);
                     break;
                 case "Get Thread List":
-                    ArrayList<JAgoraThread> threads = lib.getThreadList();
-                    changePanel(new ThreadListPanel((JAgoraClient) frame, threads));
-                    repaint();
+                    getThreadList();
                     break;
                 case "Add Argument":
                     if (panel == null)
-                        changePanel(new NewPostPanel((JAgoraClient) frame));
+                        break;
                     else {
                         JPanel newPanel = new JPanel();
                         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
@@ -172,7 +165,7 @@ public class JAgoraClient extends JFrame {
                         panel.setAlignmentX(CENTER_ALIGNMENT);
                         GraphPanel gp = (GraphPanel) panel;
                         newPanel.add(panel);
-                        NewPostPanel np = new NewPostPanel((JAgoraClient) frame);
+                        NewPostPanel np = new NewPostPanel((JAgoraClient) frame, gp);
                         newPanel.add(np);
                         changePanel(newPanel);
                         gp.newPostPanel = np;

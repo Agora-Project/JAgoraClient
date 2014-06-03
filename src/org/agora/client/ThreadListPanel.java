@@ -48,7 +48,8 @@ public class ThreadListPanel extends JPanel{
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getX() < 400 && e.getY() < threads.size() * 40) {
-                client.changePanel(new GraphPanel(client, client.lib.getThreadByID(e.getY()/40)));
+                int thread = e.getY()/40;
+                client.changePanel(new GraphPanel(client, client.lib.getThreadByID(thread), thread));
             }
         }
 

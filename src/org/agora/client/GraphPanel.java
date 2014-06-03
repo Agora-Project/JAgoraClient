@@ -24,12 +24,13 @@ public class GraphPanel extends JPanel {
     public JAgoraClient client;
     public NewPostPanel newPostPanel;
     public Post centerPost;
+    public int thread_id;
     
-    public GraphPanel(JAgoraClient client) {
-        this(client, new JAgoraGraph());
+    public GraphPanel(JAgoraClient client, int thread) {
+        this(client, new JAgoraGraph(), thread);
     }
     
-    public GraphPanel(JAgoraClient client, JAgoraGraph graph) {
+    public GraphPanel(JAgoraClient client, JAgoraGraph graph, int thread) {
         super();
         this.client = client;
         this.graph = graph;
@@ -38,6 +39,7 @@ public class GraphPanel extends JPanel {
         updateArguments();
         addMouseListener(new PanelListener());
         newPostPanel = null;
+        thread_id = thread;
     }
     
     public void paintComponent(Graphics g) {

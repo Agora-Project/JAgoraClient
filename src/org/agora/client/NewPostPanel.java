@@ -29,10 +29,12 @@ public class NewPostPanel extends JPanel{
     protected ArrayList<PostReference> posts;
     protected JPanel postPanel;
     protected JButton button;
+    protected GraphPanel graphPanel;
     
-    public NewPostPanel(JAgoraClient client) {
+    public NewPostPanel(JAgoraClient client, GraphPanel panel) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.client = client;
+        graphPanel = panel;
         textField = new JTextPane();
         titleField = new JTextField();
         posts = new ArrayList<>();
@@ -80,7 +82,7 @@ public class NewPostPanel extends JPanel{
             for (PostReference p :posts) {
                 targets.add(p.node.getID());
             }
-            client.lib.addArgumentWithAttacks(content, posts.get(0).node.getThreadID(), targets);
+            client.lib.addArgumentWithAttacks(content, graphPanel.thread_id, targets);
             textField.setText("");
             titleField.setText("");
             posts.clear();
