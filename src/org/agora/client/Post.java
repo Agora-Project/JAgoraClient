@@ -3,6 +3,7 @@ package org.agora.client;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.agora.graph.JAgoraEdge;
 import org.agora.graph.JAgoraNode;
@@ -12,17 +13,18 @@ import org.agora.graph.JAgoraNode;
  */
 public class Post {
   protected JAgoraNode node;
-  private Point position;
+  protected Point position;
   protected int width;
   protected int height;
-  private boolean visible;
+  protected boolean visible;
+  protected ArrayList<String> content;
   
   public Post(JAgoraNode node, Point position) {
     this.node = node;
     this.position = position;
-    width = 200;
-    height = 100;
+    adjustSize(200);
     visible = true;
+    
   }
   
   public Point getPosition() { return position; }
@@ -36,32 +38,56 @@ public class Post {
       else return false;
   }
   
-  public void adjustSize() {
-      int characters;
-      if (node.getContent().containsField("txt"))
-          characters = ((String) node.getContent().get("txt")).length();
-      else if (node.getContent().containsField("Text"))
-          characters = ((String) node.getContent().get("Text")).length();
+  public void adjustSize(int width) {
+//      int characters = 0;
+      String[] tokens = new String[0];
+      if (node.getContent().containsField("txt")) {
+//          characters = ((String) node.getContent().get("txt")).length();
+          tokens = ((String) node.getContent().get("txt")).split(" ");
+      }
+      else if (node.getContent().containsField("Text")) {
+//          characters = ((String) node.getContent().get("Text")).length();
+          tokens = ((String) node.getContent().get("Text")).split(" ");
+      }
+      
+      int lines = 1;
+      content = new ArrayList<>();
+      String line = new String();
+      for (String s : tokens) {
+          if ((line.length() + s.length()) * 8 < width) {
+              line += s + " ";
+          }
+          else {
+              lines += 1;
+              content.add(line);
+              line = s + " ";
+          }
+      }
+      content.add(line);
+      this.width = width;
+      height = 20 + lines * 20;
   }
   
   public void draw(Graphics g) {
       if (!isVisible()) return;
       g.setColor(Color.white);
-      g.fillRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, height);
+      int startx = (int) position.getX() -(width/2);
+      int starty = (int) position.getY() -(height/2);
+      g.fillRect( startx, starty, width, height);
       g.setColor(Color.black);
-      g.drawRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, 18);
+      g.drawRect( startx, starty, width, 18);
       if (node.getContent().containsField("Title")) 
           g.drawString((String) node.getContent().get("Title"), 
-              (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +15);
-      g.drawRect( (int) position.getX() -(width/2), (int) position.getY() -(height/2), width, height);
-      if (node.getContent().containsField("txt"))
-          g.drawString((String) node.getContent().get("txt"), 
-              (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +35);
-      else if (node.getContent().containsField("Text"))
-          g.drawString((String) node.getContent().get("Text"), 
-              (int) position.getX() -(width/2) +2, (int) position.getY() -(height/2) +35);
+              startx +2, starty +15);
+      g.drawRect(startx, starty, width, height);
+      
+      int line = 0;
+      for (String s : content) {
+          g.drawString(s, startx +2, starty +35 +(line*20));
+          line++;
+      }
           
-      Iterator<JAgoraEdge> edges = node.getIncomingEdges();
+//      Iterator<JAgoraEdge> edges = node.getIncomingEdges();
   }
 
     /**
