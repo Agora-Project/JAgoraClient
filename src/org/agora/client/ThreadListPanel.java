@@ -1,7 +1,6 @@
 package org.agora.client;
 
 import java.awt.Color;
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.*;
@@ -50,6 +49,8 @@ public class ThreadListPanel extends JPanel{
 //    }
     
     public class ThreadPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+        
         protected JAgoraThread thread;
         
         public ThreadPanel(JAgoraThread thread) {

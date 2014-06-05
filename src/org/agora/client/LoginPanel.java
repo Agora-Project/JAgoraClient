@@ -1,6 +1,5 @@
 package org.agora.client;
 
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +14,7 @@ import javax.swing.JTextField;
  * @author greg
  */
 public class LoginPanel extends JPanel {
+private static final long serialVersionUID = 1L;
     
     public JAgoraClient client;
     protected JTextField username;
