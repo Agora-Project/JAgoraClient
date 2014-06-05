@@ -61,9 +61,6 @@ public class JAgoraClient extends JFrame {
         mi = new MenuItem("Get Thread List");
         mi.addActionListener(listener);
         m.add(mi);
-        mi = new MenuItem("Get Thread");
-        mi.addActionListener(listener);
-	m.add(mi);
         mi = new MenuItem("Add Argument");
         mi.addActionListener(listener);
 	m.add(mi);
@@ -108,28 +105,10 @@ public class JAgoraClient extends JFrame {
             switch (((MenuItem) e.getSource()).getLabel())
             {
                 case "Set Host": 
-                    lib = new JAgoraLib(
-                        (String) JOptionPane.showInputDialog(frame,
-                            "Enter Host Address",
-                            "Set Host",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            null,
-                            "127.0.0.1"), org.agora.lib.Options.AGORA_PORT);
+                    changePanel(new HostPanel((JAgoraClient)frame));
                     break;
                 case "Register": 
-                    string = (String) JOptionPane.showInputDialog(frame, 
-                        "Enter username, password, and Email",
-                        "Register",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        null);
-                    if (string != null) {
-                        tokens = string.split(" ");
-                        if (tokens.length == 3) 
-                            lib.register(tokens[0], tokens[1], tokens[2]);
-                    }
+                    changePanel(new RegisterPanel((JAgoraClient)frame));
                     break;
                 case "Login":
                     changePanel(new LoginPanel((JAgoraClient)frame));
@@ -140,15 +119,6 @@ public class JAgoraClient extends JFrame {
                 case "Quit":
                     lib.logout();
                     System.exit(0);
-                    break;
-                case "Get Thread":
-                    string = (String) JOptionPane.showInputDialog(frame, 
-                        "Enter thread ID",
-                        "Get Thread",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        null);
                     break;
                 case "Get Thread List":
                     getThreadList();

@@ -14,28 +14,41 @@ import javax.swing.JTextField;
  *
  * @author greg
  */
-public class LoginPanel extends JPanel {
-    
+public class RegisterPanel extends JPanel{
     public JAgoraClient client;
     protected JTextField username;
+    protected JTextField email;
     protected JPasswordField password;
+    protected JPasswordField passwordConfirm;
     protected JButton button;
     
-    public LoginPanel(JAgoraClient client) {
+    public RegisterPanel(JAgoraClient client) {
         this.client = client;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        username = new JTextField();
+        username = new JTextField("Username");
         username.setMinimumSize(new Dimension(400, 20));
         username.setPreferredSize(new Dimension(400, 20));
         username.setMaximumSize(new Dimension(400, 20));
         username.setAlignmentX(CENTER_ALIGNMENT);
+        email = new JTextField("Email");
+        email.setMinimumSize(new Dimension(400, 20));
+        email.setPreferredSize(new Dimension(400, 20));
+        email.setMaximumSize(new Dimension(400, 20));
+        email.setAlignmentX(CENTER_ALIGNMENT);
         password = new JPasswordField();
         password.setMinimumSize(new Dimension(400, 20));
         password.setPreferredSize(new Dimension(400, 20));
         password.setMaximumSize(new Dimension(400, 20));
         password.setAlignmentX(CENTER_ALIGNMENT);;
+        passwordConfirm = new JPasswordField();
+        passwordConfirm.setMinimumSize(new Dimension(400, 20));
+        passwordConfirm.setPreferredSize(new Dimension(400, 20));
+        passwordConfirm.setMaximumSize(new Dimension(400, 20));
+        passwordConfirm.setAlignmentX(CENTER_ALIGNMENT);;
         add(username);
+        add(email);
         add(password);
+        add(passwordConfirm);
         button = new JButton("Login");
         button.addActionListener(new ButtonListener());
         button.setAlignmentX(CENTER_ALIGNMENT);
@@ -46,9 +59,11 @@ public class LoginPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            client.lib.login(username.getText(), new String(password.getPassword()));
+            String pass = new String(password.getPassword());
+            if (pass.equals(new String(passwordConfirm.getPassword())))
+            client.lib.register(username.getText(), new String(password.getPassword()), email.getText());
             password.setText("");
-            client.getThreadList();
+            client.changePanel(new LoginPanel(client));
         }
     
     }
