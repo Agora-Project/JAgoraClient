@@ -2,6 +2,7 @@ package org.agora.client;
 
 
 import java.awt.Color;
+import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.Menu;
 import java.awt.MenuBar;
@@ -62,6 +63,9 @@ public class JAgoraClient extends JFrame {
         mi.addActionListener(listener);
         m.add(mi);
         mi = new MenuItem("Add Argument");
+        mi.addActionListener(listener);
+	m.add(mi);
+        mi = new MenuItem("Edit Argument");
         mi.addActionListener(listener);
 	m.add(mi);
 	mbar.add(m);
@@ -139,6 +143,21 @@ public class JAgoraClient extends JFrame {
                         newPanel.add(np);
                         changePanel(newPanel);
                         gp.newPostPanel = np;
+                    }
+                    break;
+                case "Edit Argument": 
+                    if (panel instanceof GraphPanel) {
+                        JPanel newPanel = new JPanel();
+                        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+                        panel.setMinimumSize(new Dimension(1600, 400));
+                        panel.setPreferredSize(new Dimension(1600, 400));
+                        panel.setMaximumSize(new Dimension(1600, 400));
+                        panel.setAlignmentX(CENTER_ALIGNMENT);
+                        GraphPanel gp = (GraphPanel) panel;
+                        newPanel.add(panel);
+                        EditPostPanel np = new EditPostPanel((JAgoraClient) frame, gp.centerPost.node.getID());
+                        newPanel.add(np);
+                        changePanel(newPanel);
                     }
                     break;
             }
