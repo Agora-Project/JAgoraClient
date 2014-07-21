@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import org.agora.graph.JAgoraNodeID;
+import org.agora.graph.JAgoraArgumentID;
 import org.bson.BasicBSONObject;
 
 /**
@@ -22,9 +22,9 @@ public class EditPostPanel extends JPanel {
     protected JTextPane textField;
     protected JAgoraClient client;
     protected JButton button;
-    protected JAgoraNodeID post;
+    protected JAgoraArgumentID post;
     
-    public EditPostPanel(JAgoraClient client, JAgoraNodeID post) {
+    public EditPostPanel(JAgoraClient client, JAgoraArgumentID post) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.client = client;
         this.post = post;

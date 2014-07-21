@@ -2,7 +2,7 @@ package org.agora.client;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import org.agora.graph.JAgoraEdge;
+import org.agora.graph.JAgoraAttack;
 
 /**
  *
@@ -13,7 +13,7 @@ public class Connection {
     protected Color color;
     private boolean visible;
     
-    public Connection(Post a, Post b, JAgoraEdge edge) {
+    public Connection(Post a, Post b, JAgoraAttack edge) {
         origin = a;
         target  = b;
         color = Color.BLACK;

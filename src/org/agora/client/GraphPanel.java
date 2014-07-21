@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-import org.agora.graph.JAgoraEdge;
+import org.agora.graph.JAgoraAttack;
 import org.agora.graph.JAgoraGraph;
-import org.agora.graph.JAgoraNode;
+import org.agora.graph.JAgoraArgument;
 
 /**
  *
@@ -54,11 +54,11 @@ public class GraphPanel extends JPanel {
     public void updateArguments() {
         posts.clear();
         connections.clear();
-        for (JAgoraNode node : graph.getNodes())
+        for (JAgoraArgument node : graph.getNodes())
         {
             posts.add(new Post(node, new Point(0, 0)));
         }
-        for (JAgoraEdge edge : graph.edgeMap.values()) {
+        for (JAgoraAttack edge : graph.edgeMap.values()) {
             Post origin = getPost(edge.getOrigin());
             Post target = getPost(edge.getTarget());
             connections.add(new Connection(origin, target, edge));
@@ -67,7 +67,7 @@ public class GraphPanel extends JPanel {
         
     }
     
-    public Post getPost(JAgoraNode node) {
+    public Post getPost(JAgoraArgument node) {
         for (Post a : posts) {
                 if (a.getNode() == node)
                     return a;
@@ -88,9 +88,9 @@ public class GraphPanel extends JPanel {
         centerPost = a;
         a.setPosition(new Point(getWidth()/2, getHeight()/2));
         a.setVisible(true);
-        ArrayList<JAgoraEdge> list = a.node.getOutgoingEdgeList();
+        ArrayList<JAgoraAttack> list = a.node.getOutgoingEdgeList();
         int xoff = -110*(list.size()-1);
-        for (JAgoraEdge edge : list) {
+        for (JAgoraAttack edge : list) {
             Post p = getPost(edge.getTarget());
             p.setPosition(new Point(getWidth()/2 + xoff, getHeight()/2 -110));
             p.setVisible(true);
@@ -98,7 +98,7 @@ public class GraphPanel extends JPanel {
         }
         list = a.node.getIncomingEdgeList();
         xoff = -110*(list.size()-1);
-        for (JAgoraEdge edge : list) {
+        for (JAgoraAttack edge : list) {
             Post p = getPost(edge.getOrigin());
             p.setPosition(new Point(getWidth()/2 + xoff, getHeight()/2 +110));
             p.setVisible(true);

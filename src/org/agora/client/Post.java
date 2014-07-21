@@ -4,20 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
-import org.agora.graph.JAgoraNode;
+import org.agora.graph.JAgoraArgument;
 
 /**
- * An argument is the view of a JAgoraNode.
+ * An argument is the view of a JAgoraArgument.
  */
 public class Post {
-  protected JAgoraNode node;
+  protected JAgoraArgument node;
   protected Point position;
   protected int width;
   protected int height;
   protected boolean visible;
   protected ArrayList<String> content;
   
-  public Post(JAgoraNode node, Point position) {
+  public Post(JAgoraArgument node, Point position) {
     this.node = node;
     this.position = position;
     adjustSize(200);
@@ -27,7 +27,7 @@ public class Post {
   
   public Point getPosition() { return position; }
   public void setPosition(Point position) { this.position = position; }
-  public JAgoraNode getNode() { return node; }
+  public JAgoraArgument getNode() { return node; }
   
   public boolean containsPoint(Point p) {
       if (p.x > position.getX() -(width/2) && p.x < position.getX() +(width/2) 

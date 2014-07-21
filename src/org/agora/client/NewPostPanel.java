@@ -13,8 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import org.agora.graph.JAgoraNode;
-import org.agora.graph.JAgoraNodeID;
+import org.agora.graph.JAgoraArgument;
+import org.agora.graph.JAgoraArgumentID;
 import org.bson.BasicBSONObject;
 
 /**
@@ -60,7 +60,7 @@ public class NewPostPanel extends JPanel{
         add(button);
     }
     
-    public void addPost(JAgoraNode node) {
+    public void addPost(JAgoraArgument node) {
         for (PostReference p :posts) {
             if (p.getNode() == node)
                 return;
@@ -78,7 +78,7 @@ public class NewPostPanel extends JPanel{
             BasicBSONObject content = new BasicBSONObject();
             content.put("Title", titleField.getText());
             content.put("Text", textField.getText());
-            ArrayList<JAgoraNodeID> targets = new ArrayList<>();
+            ArrayList<JAgoraArgumentID> targets = new ArrayList<>();
             for (PostReference p :posts) {
                 targets.add(p.node.getID());
             }
@@ -92,10 +92,10 @@ public class NewPostPanel extends JPanel{
     
     public class PostReference extends JPanel {
         private static final long serialVersionUID = 1L;
-        private JAgoraNode node;
+        private JAgoraArgument node;
         private PostReference pr;
         
-        public PostReference(JAgoraNode node) {
+        public PostReference(JAgoraArgument node) {
             this.node = node;
             pr = this;
             this.setMinimumSize(new Dimension(75, 20));
@@ -113,7 +113,7 @@ public class NewPostPanel extends JPanel{
         /**
          * @return the node
          */
-        public JAgoraNode getNode() {
+        public JAgoraArgument getNode() {
             return node;
         }
         
