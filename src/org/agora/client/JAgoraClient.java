@@ -39,6 +39,7 @@ public class JAgoraClient extends JFrame {
     JLabel label = new JLabel("Agora - debate now!");
     label.setVisible(true);
     p.add(label, BorderLayout.AFTER_LAST_LINE);
+    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.pack();
     this.setVisible(true);
   }
