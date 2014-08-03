@@ -20,6 +20,12 @@ public class JAgoraClient extends JFrame {
   JAgoraPanel panel;
   
   public JAgoraClient() throws SVGElementException {
+    Options.init();
+    
+    buildLayout();
+  }
+  
+  protected void buildLayout() throws SVGElementException  {
     JPanel p = new JPanel();
     p.setLayout(new BorderLayout());
     getContentPane().add(p, BorderLayout.CENTER);
@@ -38,27 +44,11 @@ public class JAgoraClient extends JFrame {
   }
   
   public void test() {
-    Style s = new Style();
-    Options.style = s;
-    s.ARG_FILL_COLOUR = "#338855";
-    s.ARG_RADIUS = 30;
-    s.ARG_STROKE_COLOUR = "black";
-    s.ARG_WIDTH = 3;
-    
-    for (int i = 0; i < 20; i++) {
-      panel.getDebate().addArgument(new JAgoraArgument());
+    for (int i = 0; i < 1; i++) {
+      panel.addArgument(new JAgoraArgument());
     }
     
-    while(true) {
-      try {
-        Thread.sleep(30);
-        panel.getDebate().step();
-        panel.repaint();
-        System.out.println("Step");
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
+    panel.run();
   }
   
   public static void main(String[] args) throws SVGElementException {
